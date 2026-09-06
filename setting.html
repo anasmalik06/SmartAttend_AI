@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - SmartAttend</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #000;
+        }
+         /* Sidebar */
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            background: linear-gradient(180deg, #2563eb, #1e40af);
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 15px;
+            margin: 7px 0;
+            border-radius: 10px;
+        }
+
+        .menu a:hover,
+        .menu .active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Main */
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #555;
+        }
+
+        /* Settings Box */
+        .settings-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .settings-box h2 {
+            margin-bottom: 20px;
+            color: #1e40af;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #000;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            color: #000;
+            background: white;
+        }
+
+        /* Toggle */
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .setting-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #ccc;
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .switch input:checked + .slider {
+            background: #2563eb;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Buttons */
+        .save-btn {
+            margin-top: 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .danger-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .setting-row {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+     <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ✓
+            </div>
+
+            <div>
+                <h2>SmartAttend</h2>
+                <p>Attendance System</p>
+            </div>
+
+        </div>
+
+        <div class="menu-title">Main Menu</div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="admin.html" class="active">
+                    <span class="menu-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./studentR.html">
+                    <span class="menu-icon">👨‍🎓</span>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./teacher.html">
+                    <span class="menu-icon">👨‍🏫</span>
+                    <span>Teachers</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="Attendance.html">
+                    <span class="menu-icon">📋</span>
+                    <span>Attendanc report</span>
+                </a>
+            </li>
+ 
+
+            <div class="menu-title">System</div>
+
+            <li>
+                <a href="setting.html">
+                    <span class="menu-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="logout.html">
+                    <span class="menu-icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main">
+
+        <div class="header">
+            <h1>⚙️ Settings</h1>
+            <p>Manage your SmartAttend system settings</p>
+        </div>
+
+
+        <!-- Profile Settings -->
+        <div class="settings-box">
+
+            <h2>👤 Profile Settings</h2>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Admin Name</label>
+                    <input type="text" value="Admin">
+                </div>
+
+                <div>
+                    <label>Email</label>
+                    <input type="email" value="admin@gmail.com">
+                </div>
+
+                <div>
+                    <label>Phone Number</label>
+                    <input type="tel" placeholder="Enter phone number">
+                </div>
+
+                <div>
+                    <label>Language</label>
+                    <select>
+                        <option>English</option>
+                        <option>Hindi</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button class="save-btn">
+                Save Profile
+            </button>
+
+        </div>
+
+
+        <!-- Attendance Settings -->
+        <div class="settings-box">
+
+            <h2>📋 Attendance Settings</h2>
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Allow Late Attendance</h3>
+                    <p>Allow teachers to mark students as late.</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Automatic Attendance</h3>
+                    <p>Enable automatic attendance tracking.</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Attendance Reminder</h3>
+                    <p>Send reminders for missing attendance.</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <!-- Notification Settings -->
+        <div class="settings-box">
+
+            <h2>🔔 Notification Settings</h2>
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Email Notifications</h3>
+                    <p>Receive important notifications by email.</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Attendance Alerts</h3>
+                    <p>Get alerts when attendance is low.</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <!-- Password -->
+        <div class="settings-box">
+
+            <h2>🔐 Change Password</h2>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Current Password</label>
+                    <input type="password" placeholder="Enter current password">
+                </div>
+
+                <div>
+                    <label>New Password</label>
+                    <input type="password" placeholder="Enter new password">
+                </div>
+
+                <div>
+                    <label>Confirm Password</label>
+                    <input type="password" placeholder="Confirm new password">
+                </div>
+
+            </div>
+
+            <button class="save-btn">
+                Update Password
+            </button>
+
+        </div>
+
+
+        <!-- Danger Zone -->
+        <div class="settings-box">
+
+            <h2>⚠️ Danger Zone</h2>
+
+            <p>
+                Be careful while performing these actions.
+            </p>
+
+            <button class="danger-btn">
+                Delete All Attendance Data
+            </button>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

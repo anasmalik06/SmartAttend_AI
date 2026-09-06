@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance Report - SmartAttend</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* SIDEBAR */
+
+         /* Sidebar */
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            background: linear-gradient(180deg, #2563eb, #1e40af);
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 12px;
+            font-weight: normal;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin: 8px 0;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+
+        .menu a:hover,
+        .menu .active {
+            background: rgba(255,255,255,0.18);
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .topbar {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .topbar h1 {
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .topbar p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* FILTER */
+
+        .filter-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .filter-box h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            color: #000;
+            background: white;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            border-color: #2563eb;
+        }
+
+        .filter-btn {
+            margin-top: 20px;
+            padding: 11px 25px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* STAT CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .blue {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .green {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .red {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .purple {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .card h3 {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: normal;
+        }
+
+        .card h2 {
+            margin-top: 7px;
+            font-size: 27px;
+        }
+
+        /* REPORT TABLE */
+
+        .report-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            overflow-x: auto;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .report-header h2 {
+            font-size: 19px;
+        }
+
+        .download-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #16a34a;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 13px;
+            padding: 14px;
+            text-align: left;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #edf0f4;
+            font-size: 13px;
+        }
+
+        .student {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #2563eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .student small {
+            display: block;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+        .present {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .absent {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .percentage {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 1000px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 700px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 8px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .logo span {
+                display: none;
+            }
+
+            .menu a {
+                text-align: center;
+                font-size: 0;
+            }
+
+            .menu a::first-letter {
+                font-size: 20px;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 15px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ✓
+            </div>
+
+            <div>
+                <h2>SmartAttend</h2>
+                <p>Attendance System</p>
+            </div>
+
+        </div>
+
+        <div class="menu-title">Main Menu</div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="admin.html" class="active">
+                    <span class="menu-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./studentR.html">
+                    <span class="menu-icon">👨‍🎓</span>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./teacher.html">
+                    <span class="menu-icon">👨‍🏫</span>
+                    <span>Teachers</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="sreport.html">
+                    <span class="menu-icon">📋</span>
+                    <span>Attendanc report</span>
+                </a>
+            </li>
+ 
+
+            <div class="menu-title">System</div>
+
+            <li>
+                <a href="setting.html">
+                    <span class="menu-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="logout.html">
+                    <span class="menu-icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- HEADER -->
+
+        <div class="topbar">
+
+            <h1>Attendance Report 📊</h1>
+
+            <p>
+                View and manage student attendance records.
+            </p>
+
+        </div>
+
+
+        <!-- FILTER -->
+
+        <div class="filter-box">
+
+            <h2>Attendance Filter</h2>
+
+            <div class="filters">
+
+                <div class="filter-group">
+
+                    <label>Date</label>
+
+                    <input
+                        type="date"
+                        value="2026-09-04"
+                    >
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>Course</label>
+
+                    <select>
+
+                        <option>All Courses</option>
+                        <option>BCA</option>
+                        <option>B.Com</option>
+                        <option>BBA</option>
+                        <option>BA</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>Semester</label>
+
+                    <select>
+
+                        <option>All Semesters</option>
+                        <option>1st Semester</option>
+                        <option>2nd Semester</option>
+                        <option>3rd Semester</option>
+                        <option>4th Semester</option>
+                        <option>5th Semester</option>
+                        <option>6th Semester</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>Status</label>
+
+                    <select>
+
+                        <option>All Status</option>
+                        <option>Present</option>
+                        <option>Absent</option>
+                        <option>Late</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button class="filter-btn">
+                🔍 Apply Filter
+            </button>
+
+        </div>
+
+
+        <!-- CARDS -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon blue">
+                    👨‍🎓
+                </div>
+
+                <h3>Total Students</h3>
+
+                <h2>1,250</h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon green">
+                    ✓
+                </div>
+
+                <h3>Present</h3>
+
+                <h2>1,080</h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon red">
+                    ✕
+                </div>
+
+                <h3>Absent</h3>
+
+                <h2>120</h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon purple">
+                    📈
+                </div>
+
+                <h3>Attendance Rate</h3>
+
+                <h2>86.4%</h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- REPORT -->
+
+        <div class="report-box">
+
+            <div class="report-header">
+
+                <h2>Student Attendance Details</h2>
+
+                <button class="download-btn">
+                    📥 Download Report
+                </button>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Semester</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Attendance</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <tr>
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="avatar">
+                                    A
+                                </div>
+
+                                <div>
+                                    Arman Ahmad
+                                    <small>ID: ST001</small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>BCA</td>
+
+                        <td>1st</td>
+
+                        <td>04 Sep 2026</td>
+
+                        <td>09:02 AM</td>
+
+                        <td>
+                            <span class="present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td class="percentage">
+                            92%
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="avatar">
+                                    R
+                                </div>
+
+                                <div>
+                                    Rahul Kumar
+                                    <small>ID: ST002</small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>BCA</td>
+
+                        <td>1st</td>
+
+                        <td>04 Sep 2026</td>
+
+                        <td>09:08 AM</td>
+
+                        <td>
+                            <span class="present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td class="percentage">
+                            88%
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="avatar">
+                                    N
+                                </div>
+
+                                <div>
+                                    Neha Sharma
+                                    <small>ID: ST003</small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>BCA</td>
+
+                        <td>2nd</td>
+
+                        <td>04 Sep 2026</td>
+
+                        <td>09:15 AM</td>
+
+                        <td>
+                            <span class="absent">
+                                Absent
+                            </span>
+                        </td>
+
+                        <td class="percentage">
+                            76%
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="avatar">
+                                    M
+                                </div>
+
+                                <div>
+                                    Mohit Singh
+                                    <small>ID: ST004</small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>B.Com</td>
+
+                        <td>3rd</td>
+
+                        <td>04 Sep 2026</td>
+
+                        <td>09:21 AM</td>
+
+                        <td>
+                            <span class="present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td class="percentage">
+                            95%
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="avatar">
+                                    S
+                                </div>
+
+                                <div>
+                                    Salman Khan
+                                    <small>ID: ST005</small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>B.Com</td>
+
+                        <td>3rd</td>
+
+                        <td>04 Sep 2026</td>
+
+                        <td>09:25 AM</td>
+
+                        <td>
+                            <span class="present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td class="percentage">
+                            90%
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

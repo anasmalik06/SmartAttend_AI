@@ -1,0 +1,975 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance - Admin Dashboard</title>
+
+    <style>
+        * {
+            
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+         /* Sidebar */
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            background: linear-gradient(180deg, #2563eb, #1e40af);
+            color: white;
+            padding: 25px 15px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            margin-bottom: 35px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: white;
+            color: #d2d9ec;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo h2 {
+            font-size: 19px;
+        }
+
+        .logo p {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 3px;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #bfdbfe;
+            margin: 15px 12px 8px;
+            text-transform: uppercase;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin: 5px 0;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #dbeafe;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: rgba(255,255,255,0.16);
+            color: white;
+        }
+
+        .menu-icon {
+            width: 25px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            padding: 25px;
+        }
+
+        /* ================= TOPBAR ================= */
+
+        .topbar {
+            background: white;
+            border-radius: 16px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 24px;
+        }
+
+        .welcome p {
+            color: #6b7280;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .admin {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#2563eb,#7c3aed);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .admin-info b {
+            font-size: 14px;
+        }
+
+        .admin-info small {
+            display: block;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        /* ================= STAT CARDS ================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .blue {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .green {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .red {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .purple {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .card h3 {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .card h2 {
+            font-size: 27px;
+            margin-top: 7px;
+        }
+
+        .card span {
+            display: block;
+            margin-top: 7px;
+            font-size: 12px;
+            color: #16a34a;
+        }
+
+        /* ================= GRID ================= */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .box {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .box-header h2 {
+            font-size: 18px;
+        }
+
+        .box-header a {
+            text-decoration: none;
+            color: #2563eb;
+            font-size: 13px;
+        }
+
+        /* ================= ATTENDANCE CIRCLE ================= */
+
+        .attendance-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #16a34a 0deg 270deg,
+                #ef4444 270deg 330deg,
+                #f59e0b 330deg 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle-inner {
+            width: 135px;
+            height: 135px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle-inner h1 {
+            font-size: 30px;
+        }
+
+        .circle-inner p {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .attendance-info {
+            margin-top: 20px;
+        }
+
+        .attendance-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            margin-right: 7px;
+        }
+
+        .dot-green {
+            background: #16a34a;
+        }
+
+        .dot-red {
+            background: #ef4444;
+        }
+
+        .dot-yellow {
+            background: #f59e0b;
+        }
+
+        /* ================= TABLE ================= */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 12px;
+            text-align: left;
+            padding: 13px;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13px;
+        }
+
+        .student {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .student-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #2563eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .student small {
+            display: block;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .present {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .absent {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        /* ================= QUICK ACTIONS ================= */
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .action {
+            padding: 18px 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            color: #374151;
+            transition: 0.3s;
+        }
+
+        .action:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+            transform: translateY(-3px);
+        }
+
+        .action-icon {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .action p {
+            font-size: 12px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:1100px) {
+
+            .cards {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:700px) {
+
+            .sidebar {
+                width: 70px;
+            }
+
+            .logo h2,
+            .logo p,
+            .menu-title {
+                display: none;
+            }
+
+            .logo {
+                justify-content: center;
+            }
+
+            .menu a {
+                justify-content: center;
+            }
+
+            .menu a span:not(.menu-icon) {
+                display: none;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 15px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                gap: 15px;
+            }
+
+            .welcome h1 {
+                font-size: 19px;
+            }
+
+            table {
+                min-width: 600px;
+            }
+
+            .box {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ✓
+            </div>
+
+            <div>
+                <h2>SmartAttend</h2>
+                <p>Attendance System</p>
+            </div>
+
+        </div>
+
+        <div class="menu-title">Main Menu</div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="#" class="active">
+                    <span class="menu-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./studentR.html">
+                    <span class="menu-icon">👨‍🎓</span>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./teacher.html">
+                    <span class="menu-icon">👨‍🏫</span>
+                    <span>Teachers</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="Attendance.html">
+                    <span class="menu-icon">📋</span>
+                    <span>Attendanc report</span>
+                </a>
+            </li>
+ 
+
+            <div class="menu-title">System</div>
+
+            <li>
+                <a href="setting.html">
+                    <span class="menu-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="logout.html">
+                    <span class="menu-icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div class="welcome">
+                <h1>Good Morning, Admin 👋</h1>
+                <p>Here's what's happening with your attendance today.</p>
+            </div>
+
+            <div class="admin">
+
+                <div class="admin-avatar">
+                    A
+                </div>
+
+                <div class="admin-info">
+                    <b>Admin</b>
+                    <small>Administrator</small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon blue">
+                    👨‍🎓
+                </div>
+
+                <h3>Total Students</h3>
+                <h2>1,250</h2>
+
+                <span>↑ 8.2% this month</span>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon green">
+                    ✓
+                </div>
+
+                <h3>Present Today</h3>
+                <h2>1,080</h2>
+
+                <span>86.4% attendance</span>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon red">
+                    ✕
+                </div>
+
+                <h3>Absent Today</h3>
+                <h2>120</h2>
+
+                <span style="color:#dc2626;">
+                    9.6% absent
+                </span>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon purple">
+                    🏫
+                </div>
+
+                <h3>Total Classes</h3>
+                <h2>32</h2>
+
+                <span>4 classes active</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD CONTENT -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- ATTENDANCE OVERVIEW -->
+
+            <div class="box">
+
+                <div class="box-header">
+
+                    <h2>Today's Attendance</h2>
+
+                    <a href="#">
+                        View Report →
+                    </a>
+
+                </div>
+
+
+                <div class="attendance-center">
+
+                    <div class="circle">
+
+                        <div class="circle-inner">
+
+                            <h1>86.4%</h1>
+
+                            <p>Attendance</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="attendance-info">
+
+                    <div class="attendance-row">
+
+                        <span>
+                            <span class="dot dot-green"></span>
+                            Present
+                        </span>
+
+                        <b>1,080</b>
+
+                    </div>
+
+
+                    <div class="attendance-row">
+
+                        <span>
+                            <span class="dot dot-red"></span>
+                            Absent
+                        </span>
+
+                        <b>120</b>
+
+                    </div>
+
+
+                    <div class="attendance-row">
+
+                        <span>
+                            <span class="dot dot-yellow"></span>
+                            Late
+                        </span>
+
+                        <b>50</b>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="box">
+
+                <div class="box-header">
+
+                    <h2>Quick Actions</h2>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <a href="studentR.html" class="action">
+
+                        <div class="action-icon">
+                            ➕
+                        </div>
+
+                        <p>Add Student</p>
+
+                    </a>
+
+
+                    <a href="sreport.html" class="action">
+
+                        <div class="action-icon">
+                            📋
+                        </div>
+
+                        <p>Mark Attendance</p>
+
+                    </a>
+
+
+                    <a href="#" class="action">
+
+                        <div class="action-icon">
+                            📊
+                        </div>
+
+                        <p>Generate Report</p>
+
+                    </a>
+
+
+                    <a href="#" class="action">
+
+                        <div class="action-icon">
+                            👨‍🏫
+                        </div>
+
+                        <p>Add Teacher</p>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECENT ATTENDANCE -->
+
+        <div class="box" style="margin-top:20px;">
+
+            <div class="box-header">
+
+                <h2>Recent Attendance</h2>
+
+                <a href="#">
+                    View All →
+                </a>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Student</th>
+                        <th>Class</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    A
+                                </div>
+
+                                <div>
+                                    Arman Ahmad
+                                    <small>ID: ST001</small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>BCA 2st</td>
+
+                        <td>04 Sep 2026</td>
+
+                        <td>09:02 AM</td>
+
+                        <td>
+                            <span class="present">
+                                Present
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    R
+                                </div>
+
+                                <div>
+                                    anas
+                                    <small>ID: ST002</small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>BCA 2st</td>
+
+                        <td>04 Sep 2026</td>
+
+                        <td>09:08 AM</td>
+
+                        <td>
+                            <span class="present">
+                                Present
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    N
+                                </div>
+
+                                <div>
+                                    Neha Sharma
+                                    <small>ID: ST003</small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>BCA 2nd</td>
+
+                        <td>04 Sep 2026</td>
+
+                        <td>09:15 AM</td>
+
+                        <td>
+                            <span class="absent">
+                                Absent
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    M
+                                </div>
+
+                                <div>
+                                    Mohit Singh
+                                    <small>ID: ST004</small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>BCA 2nd</td>
+
+                        <td>04 Sep 2026</td>
+
+                        <td>09:21 AM</td>
+
+                        <td>
+                            <span class="present">
+                                Present
+                            </span>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

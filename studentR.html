@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Registration - SmartAttend</title>
+
+    <style>
+        * {
+            label {
+            color: #000000;
+            }
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            background: linear-gradient(180deg, #2563eb, #1e40af);
+            color: white;
+            padding: 25px 15px;
+        }
+        .logo {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 12px;
+            font-weight: normal;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin: 8px 0;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+
+        .menu a:hover,
+        .menu .active {
+            background: rgba(255,255,255,0.18);
+        }
+
+        /* Main */
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .topbar {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .topbar h1 {
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .topbar p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* Form */
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .form-title {
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: #000000;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group.full {
+            grid-column: 1 / 3;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            outline: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .gender {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            height: 45px;
+        }
+
+        .gender label {
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .gender input {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .reset {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .submit {
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media(max-width: 750px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 8px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .logo span {
+                display: none;
+            }
+
+            .menu a {
+                text-align: center;
+                font-size: 0;
+            }
+
+            .menu a::first-letter {
+                font-size: 20px;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-group.full {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+     <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ✓
+            </div>
+
+            <div>
+                <h2>SmartAttend</h2>
+                <p>Attendance System</p>
+            </div>
+
+        </div>
+
+        <div class="menu-title">Main Menu</div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="admin.html" class="active">
+                    <span class="menu-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./studentR.html">
+                    <span class="menu-icon">👨‍🎓</span>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./teacher.html">
+                    <span class="menu-icon">👨‍🏫</span>
+                    <span>Teachers</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="Attendance.html">
+                    <span class="menu-icon">📋</span>
+                    <span>Attendanc report</span>
+                </a>
+            </li>
+ 
+
+            <div class="menu-title">System</div>
+
+            <li>
+                <a href="setting.html">
+                    <span class="menu-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="logout.html">
+                    <span class="menu-icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- Main Content -->
+
+    <div class="main">
+
+        <div class="topbar">
+            <h1>Student Registration 🎓</h1>
+            <p>Add a new student to the Smart Attendance System.</p>
+        </div>
+
+
+        <div class="form-container">
+
+            <h2 class="form-title">
+                Student Information
+            </h2>
+
+
+            <form action="" method="post">
+
+                <div class="form-grid">
+
+
+                    <!-- Student ID -->
+
+                    <div class="input-group">
+
+                        <label>Student ID</label>
+
+                        <input
+                            type="text"
+                            placeholder="Enter Student ID"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Student Name -->
+
+                    <div class="input-group">
+
+                        <label>Full Name</label>
+
+                        <input
+                            type="text"
+                            placeholder="Enter full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Date of Birth -->
+
+                    <div class="input-group">
+
+                        <label>Date of Birth</label>
+
+                        <input
+                            type="date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Gender -->
+
+                    <div class="input-group">
+
+                        <label>Gender</label>
+
+                        <div class="gender">
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Male"
+                                >
+                                Male
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Female"
+                                >
+                                Female
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Other"
+                                >
+                                Other
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Email -->
+
+                    <div class="input-group">
+
+                        <label>Email</label>
+
+                        <input
+                            type="email"
+                            placeholder="student@gmail.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Phone -->
+
+                    <div class="input-group">
+
+                        <label>Phone Number</label>
+
+                        <input
+                            type="tel"
+                            placeholder="Enter phone number"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Course -->
+
+                    <div class="input-group">
+
+                        <label>Course</label>
+
+                        <select required>
+
+                            <option value="">
+                                Select Course
+                            </option>
+
+                            <option>BCA</option>
+                            <option>BBA</option>
+                            <option>B.Com</option>
+                            <option>BA</option>
+                            <option>B.Sc</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Semester -->
+
+                    <div class="input-group">
+
+                        <label>Semester</label>
+
+                        <select required>
+
+                            <option value="">
+                                Select Semester
+                            </option>
+
+                            <option>1st Semester</option>
+                            <option>2nd Semester</option>
+                            <option>3rd Semester</option>
+                            <option>4th Semester</option>
+                            <option>5th Semester</option>
+                            <option>6th Semester</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Father Name -->
+
+                    <div class="input-group">
+
+                        <label>Father / Guardian Name</label>
+
+                        <input
+                            type="text"
+                            placeholder="Enter father/guardian name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Parent Phone -->
+
+                    <div class="input-group">
+
+                        <label>Parent Phone Number</label>
+
+                        <input
+                            type="tel"
+                            placeholder="Enter parent phone"
+                        >
+
+                    </div>
+
+
+                    <!-- Address -->
+
+                    <div class="input-group full">
+
+                        <label>Address</label>
+
+                        <textarea
+                            placeholder="Enter student's complete address"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <div class="buttons">
+
+                    <button
+                        type="reset"
+                        class="btn reset"
+                    >
+                        Clear
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn submit"
+                    >
+                        ✓ Register Student
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

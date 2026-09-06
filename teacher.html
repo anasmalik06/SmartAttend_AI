@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachers - SmartAttend</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #000;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            background: linear-gradient(180deg, #2563eb, #1e40af);
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 15px;
+            margin: 7px 0;
+            border-radius: 10px;
+        }
+
+        .menu a:hover,
+        .menu .active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Main */
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Form */
+        .form-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .form-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        label {
+            color: #000;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            color: #000;
+            background: white;
+        }
+
+        .save-btn {
+            margin-top: 20px;
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Table */
+        .table-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #eff6ff;
+        }
+
+        .status {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .edit {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 5px;
+        }
+
+        .delete {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 5px;
+        }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+ <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ✓
+            </div>
+
+            <div>
+                <h2>SmartAttend</h2>
+                <p>Attendance System</p>
+            </div>
+
+        </div>
+
+        <div class="menu-title">Main Menu</div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="admin.html" class="active">
+                    <span class="menu-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./studentR.html">
+                    <span class="menu-icon">👨‍🎓</span>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./teacher.html">
+                    <span class="menu-icon">👨‍🏫</span>
+                    <span>Teachers</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="Attendance.html">
+                    <span class="menu-icon">📋</span>
+                    <span>Attendanc report</span>
+                </a>
+            </li>
+ 
+
+            <div class="menu-title">System</div>
+
+            <li>
+                <a href="setting.html">
+                    <span class="menu-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="logout.html">
+                    <span class="menu-icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+
+
+    <!-- Main Content -->
+    <div class="main">
+
+        <div class="topbar">
+            <h1>👨‍🏫 Teacher Management</h1>
+
+            <button class="add-btn">
+                + Add Teacher
+            </button>
+        </div>
+
+
+        <!-- Teacher Form -->
+        <div class="form-box">
+
+            <h2>➕ Add New Teacher</h2>
+
+            <form>
+
+                <div class="form-grid">
+
+                    <div>
+                        <label>Teacher ID</label>
+                        <input type="text" placeholder="Enter Teacher ID">
+                    </div>
+
+                    <div>
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Enter Full Name">
+                    </div>
+
+                    <div>
+                        <label>Email</label>
+                        <input type="email" placeholder="Enter Email">
+                    </div>
+
+                    <div>
+                        <label>Phone</label>
+                        <input type="tel" placeholder="Enter Phone Number">
+                    </div>
+
+                    <div>
+                        <label>Department</label>
+                        <select>
+                            <option>Select Department</option>
+                            <option>Computer Science</option>
+                            <option>Commerce</option>
+                            <option>Mathematics</option>
+                            <option>English</option>
+                            <option>Science</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Subject</label>
+                        <input type="text" placeholder="Enter Subject">
+                    </div>
+
+                </div>
+
+                <button type="submit" class="save-btn">
+                    Save Teacher
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Teacher List -->
+        <div class="table-box">
+
+            <h2>📋 Teacher List</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Teacher ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Subject</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>T001</td>
+                        <td>Rahul Sharma</td>
+                        <td>rahul@gmail.com</td>
+                        <td>Computer Science</td>
+                        <td>Python</td>
+                        <td><span class="status">Active</span></td>
+                        <td>
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>T002</td>
+                        <td>Priya Singh</td>
+                        <td>priya@gmail.com</td>
+                        <td>Commerce</td>
+                        <td>Accounts</td>
+                        <td><span class="status">Active</span></td>
+                        <td>
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>T003</td>
+                        <td>Amit Kumar</td>
+                        <td>amit@gmail.com</td>
+                        <td>Mathematics</td>
+                        <td>Maths</td>
+                        <td><span class="status">Active</span></td>
+                        <td>
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
